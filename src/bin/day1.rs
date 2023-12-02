@@ -32,7 +32,7 @@ fn find_first_num_char(input: &str, search_backwards: bool) -> Option<(char, u32
 }
 
 /// Finds the first number word ("one") representing a digit ("1") and returns the char version of it
-/// 
+///
 /// This function works by attempting to find any of number words within the input string.
 /// if `search_backwards` is false it will find the left most numerical word, else right most
 fn find_first_num_word(input: &str, search_backwards: bool) -> Option<(char, u32)> {
@@ -42,7 +42,7 @@ fn find_first_num_word(input: &str, search_backwards: bool) -> Option<(char, u32
     if search_backwards {
         line = line.chars().rev().collect::<String>();
     }
-    
+
     // keep track of the left most or right most value
     // if search_backwards is false best_find represents left most, else right most
     // TODO(mdeforge): I wish I could have used a tuple here but they are immutable... something else?
@@ -116,7 +116,7 @@ fn find_calibration_value(line: &str) -> Result<u32, std::num::ParseIntError> {
         let combined = format!("{first_val}{last_val}");
         match combined.parse::<u32>() {
             Ok(n) => return Ok(n),
-            Err(e) => return Err(e)
+            Err(e) => return Err(e),
         };
     }
 
@@ -1156,32 +1156,29 @@ mod tests {
     #[case("one12", Some(('1', 3)))]
     #[case("asd12two", Some(('1', 3)))]
     #[case("one", None)]
-    fn test_find_first_num_char_first(#[case] input: &str, #[case] expected_first: Option<(char, u32)>) {
-        assert_eq!(
-            expected_first,
-            find_first_num_char(input, false)
-        );
+    fn test_find_first_num_char_first(
+        #[case] input: &str,
+        #[case] expected_first: Option<(char, u32)>,
+    ) {
+        assert_eq!(expected_first, find_first_num_char(input, false));
     }
 
     #[rstest]
     #[case("one12", Some(('2', 0)))] // 21eno
     #[case("asd12two", Some(('2', 3)))] // owt21dsa
     #[case("one", None)]
-    fn test_find_first_num_char_last(#[case] input: &str, #[case] expected_last: Option<(char, u32)>) {
-        assert_eq!(
-            expected_last,
-            find_first_num_char(input, true)
-        );
+    fn test_find_first_num_char_last(
+        #[case] input: &str,
+        #[case] expected_last: Option<(char, u32)>,
+    ) {
+        assert_eq!(expected_last, find_first_num_char(input, true));
     }
 
     #[rstest]
     #[case("1two", Some(('2', 1)))]
     #[case("1", None)]
     fn test_find_first_num_word_first(#[case] input: &str, #[case] expected: Option<(char, u32)>) {
-        assert_eq!(
-            expected,
-            find_first_num_word(input, false)
-        )
+        assert_eq!(expected, find_first_num_word(input, false))
     }
 
     #[rstest]
@@ -1189,10 +1186,7 @@ mod tests {
     #[case("two1nine", Some(('9', 0)))]
     #[case("1", None)]
     fn test_find_first_num_word_last(#[case] input: &str, #[case] expected: Option<(char, u32)>) {
-        assert_eq!(
-            expected,
-            find_first_num_word(input, true)
-        )
+        assert_eq!(expected, find_first_num_word(input, true))
     }
 
     #[rstest]
