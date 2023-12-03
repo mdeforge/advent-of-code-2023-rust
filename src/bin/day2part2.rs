@@ -84,10 +84,6 @@ fn parse_game(line: &str) -> Option<Game> {
     Some(game)
 }
 
-const NUM_RED_CUBES: i32 = 12;
-const NUM_GREEN_CUBES: i32 = 13;
-const NUM_BLUE_CUBES: i32 = 14;
-
 fn main() -> std::io::Result<()> {
     
     let f = File::open("src/data/day2part1_data.txt")?;
@@ -100,30 +96,12 @@ fn main() -> std::io::Result<()> {
     }
     
     let mut total_power: i32 = 0;
-    let mut valid_games: Vec<_> = Vec::<i32>::default();
     for game in &games {
-        let mut is_valid = true;
         let min_set = game.find_min_set();
-
-        for set in &game.sets {
-            if set.reds <= NUM_RED_CUBES && set.greens <= NUM_GREEN_CUBES && set.blues <= NUM_BLUE_CUBES {
-                continue;
-            } else {
-                is_valid = false;
-            }
-        }
-        
         let power = min_set.reds * min_set.greens * min_set.blues;
         total_power = total_power + power;
-
-        if is_valid {
-            valid_games.push(game.num)
-        }
     }
 
-    let sum: i32 = valid_games.iter().sum();
-    println!("Valid games: {:?}", valid_games);
-    println!("Sum of valid games: {}", sum);
     println!("Total power: {}", total_power);
 
     Ok(())
